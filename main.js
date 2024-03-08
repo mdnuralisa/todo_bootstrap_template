@@ -1,13 +1,11 @@
 // fetchalltodo item using get index API
 
-const JWTtoken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5rZWxhc3Byb2dyYW1taW5nLmNvbS50ZXN0Iiwic3ViIjoiMTIyNDAwYmItZjQ3OS01ZDRlLWE3NzAtMDg4ZTE5OTgwMjBmIiwiaWF0IjoxNzA5ODIwNTMzLCJleHAiOjE3MDk5OTMzMzMsIm5hbWUiOiJ0ZXN0aW5nIn0.JMuwWZyVDtnAVOsSnFMeUa0uyf53-Nf6bGP6sfsljBE'
-
-// `Bearer ${JWTtoken}`
+const JWTtoken = localStorage.getItem('todoJWTtoken')
 
 const fetchAllTodo = () => {
     fetch("https://api.kelasprogramming.com/todo",{
         headers: {
-            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5rZWxhc3Byb2dyYW1taW5nLmNvbS50ZXN0Iiwic3ViIjoiMTIyNDAwYmItZjQ3OS01ZDRlLWE3NzAtMDg4ZTE5OTgwMjBmIiwiaWF0IjoxNzA5ODIwNTMzLCJleHAiOjE3MDk5OTMzMzMsIm5hbWUiOiJ0ZXN0aW5nIn0.JMuwWZyVDtnAVOsSnFMeUa0uyf53-Nf6bGP6sfsljBE"
+            "Authorization": `Bearer ${JWTtoken}`
         }
     })
     .then((response)=> response.json())
