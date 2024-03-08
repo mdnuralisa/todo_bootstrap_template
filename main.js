@@ -25,4 +25,36 @@ const fetchAllTodo = () => {
     .catch((err) => {debugger})
 }
 
+// add new todo using create API post method
+
+const newTodo = (event) => {
+    event.preventDefault(); // Prevent the default form submission behavior
+    const inputValue = document.getElementById('todoInput').value;
+
+    fetch('https://api.kelasprogramming.com/todo',{
+        method: 'POST',
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${JWTtoken}`
+        },
+        body: JSON.stringify({
+            "details": inputValue
+        })
+    })
+    .then(res => res.json())
+    .then(body =>{
+        fetchAllTodo()
+        document.getElementById('todoInput').value = ''
+    })
+    .catch(err => {debugger})
+}
+
+// update todolist using update API Put method
+
+let selectedTodo =''
+const selectTodo = (todo) => {
+    console.log(todo)
+    selectedTodo = todo
+}
+
 fetchAllTodo()
