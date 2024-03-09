@@ -49,16 +49,29 @@ const newTodo = (event) => {
     .catch(err => {debugger})
 }
 
-// update todolist using update API Put method
+// when click edit button will use show for specific id using show API get method
 
 let selectedTodo =''
 const selectTodo = (todo) => {
     console.log(todo)
     selectedTodo = todo
+
+    fetch(`https://api.kelasprogramming.com/todo/${selectedTodo.id}`,{
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${JWTtoken}`
+        },
+    })
+    .then(res => res.json())
+    .then(body =>{
+        document.getElementById('todoUpdate').value = selectedTodo.details;
+        document.getElementById('checkBox').checked = selectedTodo.completed == 1
+    })
+    .catch(err => {debugger})
 }
 
 let isChecked = false;
-const checked =() => {document.addEventListener('DOMContentLoaded', function() {
+const checkedBox =() => {document.addEventListener('DOMContentLoaded', function() {
     const checkBox = document.getElementById('checkBox');
     const incompleteLabel = document.querySelector('.Incomplete');
     const completedLabel = document.querySelector('.Completed');
@@ -76,6 +89,8 @@ const checked =() => {document.addEventListener('DOMContentLoaded', function() {
     });
   })
   }
+
+// update todolist using update API Put method
 
 const onSaveChanges = (event) => {
     event.preventDefault(); // Prevent the default form submission behavior
@@ -100,4 +115,4 @@ const onSaveChanges = (event) => {
 }
 
 fetchAllTodo();
-checked();
+checkedBox();
