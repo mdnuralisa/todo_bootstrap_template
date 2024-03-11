@@ -22,7 +22,9 @@ const fetchAllTodo = () => {
         ))
         document.getElementById('todoList').innerHTML = todoList.join('')
     })
-    .catch((err) => {debugger})
+    .catch((err) => {
+        alert('Please login or register.')
+    })
 }
 
 // add new todo using create API post method
@@ -156,6 +158,16 @@ document.getElementById('logoutButton').addEventListener('click', function() {
     // Redirect user to login page or perform necessary actions
     window.location.href = './sign-in.html';
 });
+
+        // Add event listener to the Todo List link
+        document.getElementById('todoListLink').addEventListener('click', function(event) {
+            // Check if token is present
+            if (!JWTtoken) {
+                // If token is not present, prevent default action (navigation) and show alert message
+                event.preventDefault();
+                alert('Please login or register.');
+            }
+        });
 
 fetchAllTodo();
 checkedBox();

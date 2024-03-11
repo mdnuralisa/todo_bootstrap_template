@@ -24,3 +24,30 @@ const onSubmit = (event) => {
     })
     .catch(err => {debugger})
 };
+
+// register using AUTH API
+
+const registerUser = (event) =>{
+    event.preventDefault(); // Prevent the default form submission behavior
+    const username = document.getElementById('registerName').value;
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    console.log(`username ${username}, email ${email}, password ${password}`);
+    
+    fetch('https://api.kelasprogramming.com/register',{
+        method: 'POST',
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            "username": username,
+            "email": email,
+            "password": password
+        })
+    })
+    .then(res => res.json())
+    .then(body =>{
+        window.location.href ='./sign-in.html'
+    })
+    .catch(err => {debugger})
+};
