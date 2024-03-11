@@ -11,12 +11,12 @@ const fetchAllTodo = () => {
     .then((response)=> response.json())
     .then((body)=>{
         const todoList = body.entry.map((todo) => (
-            `<div class="pt-1 d-flex justify-content-between">
+            `<div id ="item" class="pt-1 d-flex justify-content-between">
             ${todo.details}
             <div class="d-flex" >
               <button class="btn btn-${todo.completed == 1 ? 'success' : 'warning'} me-1">${todo.completed == 1 ? '<i class="bi bi-check"></i>' : '<i class="bi bi-x"></i>'}</button>
               <button class='btn btn-primary me-1' data-bs-toggle="modal" data-bs-target="#editTodo" onclick = 'selectTodo(${JSON.stringify(todo)})' ><i class="bi bi-pencil"></i></button>
-              <button class='btn btn-danger'><i class="bi bi-trash"></i></button>
+              <button class='btn btn-danger'><i class="bi bi-trash" onclick = 'deleteTodo(${JSON.stringify(todo)})'></i></button>
             </div>
           </div>`
         ))
@@ -113,6 +113,49 @@ const onSaveChanges = (event) => {
         document.getElementById('closeModal').click()
     })
 }
+
+// delete item using delete API
+let deleteId =''
+const deleteTodo = (todo) => {
+    console.log(todo)
+    deleteId = todo
+
+    fetch(`https://api.kelasprogramming.com/todo/${deleteId.id}`,{
+        method: 'DELETE',
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${JWTtoken}`
+        },
+    })
+    .then(res => res.json())
+    .then(body =>{
+        document.getElementById('item').innerHTML = ''
+        fetchAllTodo();
+    })
+    .catch(err => {debugger})
+}
+
+//logout button on Navbar on success login
+if(JWTtoken) {
+    // If token is present, show logout button and hide login and register links
+    document.getElementById('loginLink').style.display = 'none';
+    document.getElementById('registerLink').style.display = 'none';
+    document.getElementById('logoutButton').style.display = 'block';
+} else {
+    // If token is not present, hide logout button and show login and register links
+    document.getElementById('loginLink').style.display = 'block';
+    document.getElementById('registerLink').style.display = 'block';
+    document.getElementById('logoutButton').style.display = 'none';
+}
+
+// Assuming you have a logout functionality, you can attach an event listener to the logout button
+document.getElementById('logoutButton').addEventListener('click', function() {
+    // Clear token from local storage or perform logout logic
+    localStorage.removeItem('todoJWTtoken');
+    localStorage.removeItem('todoRefreshToken');
+    // Redirect user to login page or perform necessary actions
+    window.location.href = './sign-in.html';
+});
 
 fetchAllTodo();
 checkedBox();
